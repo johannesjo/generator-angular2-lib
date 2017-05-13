@@ -67,12 +67,6 @@ module.exports = class extends Generator {
       execSync('cd ' + this.dashedName);
     }
 
-    // move files
-    const base = this.destinationPath(this.targetPath + 'src/');
-    fs.renameSync(base + 'directive.ts', base + this.dashedName + '.directive.ts');
-    fs.renameSync(base + 'directive.spec.ts', base + this.dashedName + '.directive.spec.ts');
-    fs.renameSync(base + 'module.ts', base + this.dashedName + '.module.ts');
-
     this.installDependencies({
       npm: true,
       bower: false,
@@ -86,7 +80,11 @@ module.exports = class extends Generator {
 
   postRun() {
     this.on('dependenciesInstalled', function () {
-
+      // move files
+      const base = this.destinationPath(this.targetPath + 'src/');
+      fs.renameSync(base + 'directive.ts', base + this.dashedName + '.directive.ts');
+      fs.renameSync(base + 'directive.spec.ts', base + this.dashedName + '.directive.spec.ts');
+      fs.renameSync(base + 'module.ts', base + this.dashedName + '.module.ts');
 
       // create symlink and run
       this.spawnCommand('npm', ['run', 'link-mod']);
