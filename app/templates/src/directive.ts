@@ -13,4 +13,7 @@ export class <%=classedName%>Directive implements OnDestroy {
     // provide configuration
     this.cfg = Object.assign({}, DEFAULT_CFG, userCfg);
   }
+
+  ngOnDestroy() {
+  }
 }
