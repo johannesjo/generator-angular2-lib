@@ -1,10 +1,10 @@
-import { Angular2PromiseButtonsPage } from './app.po';
+import { <%=classedName%>Page } from './app.po';
 
-describe('angular2-promise-buttons App', () => {
-  let page: Angular2PromiseButtonsPage;
+describe('<%= dashedName %> App', () => {
+  let page: <%=classedName%>Page;
 
   beforeEach(() => {
-    page = new Angular2PromiseButtonsPage();
+    page = new <%=classedName%>Page();
   });
 
   it('should display message saying app works', () => {

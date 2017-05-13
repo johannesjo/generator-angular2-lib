@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class Angular2PromiseButtonsPage {
+export class <%=classedName%>Page {
   navigateTo() {
     return browser.get('/');
   }

@@ -1,6 +1,6 @@
 {
   "project": {
-    "name": "angular2-promise-buttons"
+    "name": "<%= dashedName %>"
   },
   "apps": [
     {
