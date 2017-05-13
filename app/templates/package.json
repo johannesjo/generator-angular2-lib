@@ -22,6 +22,7 @@
     "dev": "ng serve",
     "start": "run-s dev",
     "test": "ng test -sr",
+    "test-watch": "ng test",
     "test-coverage": "ng test -cc -sr",
     "link-mod": "rm demo/src/app/component-symlink; cd demo/src/app && ln -s ../../../src component-symlink",
     "coveralls": "YOURPACKAGE_COVERAGE=1 cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
