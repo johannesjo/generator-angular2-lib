@@ -59,7 +59,7 @@ Creates a changelog based on the [angular commit conventions](https://github.com
 npm version [major,minor,patch] && npm publish && git push --tags && git push
 ```
 
-## Layout
+## Folder Layout
 **demo/src**: The files of the demo application.
 
 **demo/src/app/component-symlink**: Currently angular-cli is unable to do aot, when files outside of the demo/src folder are included. That's why we symlink ./src to ./demo/src/app/component-symlink and include it from there.
