@@ -17,9 +17,6 @@
     "module",
     "component"
   ],
-  "files": [
-    "app/**/*"
-  ],
   "dependencies": {
     "underscore.string": "^3.3.4",
     "yeoman-generator": "^1.1.1"
