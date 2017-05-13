@@ -1,6 +1,7 @@
 const Generator = require('yeoman-generator');
 const _s = require('underscore.string');
 const path = require('path');
+const execSync = require('child_process').execSync;
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -45,9 +46,9 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.targetPath = this.dashedName;
+    this.targetPath = this.dashedName + '/';
     const currentDir = process.cwd().split(path.sep).pop();
-    this.isInDir = currentDir === this.dashedName;
+    this.isInDir = (currentDir === this.dashedName);
     if (this.isInDir) {
       this.targetPath = '';
     }
@@ -61,15 +62,30 @@ module.exports = class extends Generator {
   }
 
   install() {
+    if (!this.isInDir) {
+      execSync('cd ' + this.dashedName);
+    }
+
     const base = this.destinationPath(this.targetPath + 'src/');
     this.fs.move(base + 'directive.ts', base + this.dashedName + '.directive.ts');
     this.fs.move(base + 'directive.spec.ts', base + this.dashedName + '.directive.spec.ts');
     this.fs.move(base + 'module.ts', base + this.dashedName + '.module.ts');
-    if (!this.isInDir) {
-      this.spawnCommand('cd', [this.dashedName]);
-    }
-    this.spawnCommand('npm', ['install']);
-    this.spawnCommand('npm', ['run', 'link-mod']);
-    //this.spawnCommand('npm', ['run', 'dev']);
+
+    this.installDependencies({
+      npm: true,
+      bower: false,
+      yarn: false,
+      callback: function () {
+        // Emit a new event - dependencies installed
+        this.emit('dependenciesInstalled');
+      }.bind(this)
+    });
+  }
+
+  postRun() {
+    this.on('dependenciesInstalled', function () {
+      this.spawnCommand('npm', ['run', 'link-mod']);
+      this.spawnCommand('npm', ['run', 'dev']);
+    });
   }
 };
