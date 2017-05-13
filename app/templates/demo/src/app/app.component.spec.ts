@@ -2,13 +2,6 @@ import {async, TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
-// @Directive({
-//   selector: '[promiseBtn]'
-// })
-// class MockPromiseBtnDirective {
-//   @Input('promiseBtn') promise: Promise<any>;
-// }
-
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
