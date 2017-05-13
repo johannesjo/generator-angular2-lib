@@ -1,4 +1,6 @@
 const Generator = require('yeoman-generator');
+const _s = require('underscore.string');
+const path = require('path');
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -22,32 +24,52 @@ module.exports = class extends Generator {
 
     prompts.push({
       type: 'input',
-      name: 'gitPath',
-      message: 'What is the name of your library (e.g. yourusername/yourrepo?',
-      default: this.gitPath
+      name: 'githubUsername',
+      message: 'What is your github username?',
+      default: this.githubUsername
     });
 
     return this.prompt(prompts)
       .then((answers) => {
-        this.libName = answers.libName;
-        this.gitPath = answers.gitPath;
+        if (answers.libName) {
+          this.libName = answers.libName;
+        }
+        this.githubUsername = answers.githubUsername;
+        // setup other vars
+        this.targetPath = this.libName;
+        this.dashedName = _s.dasherize(this.libName);
+        this.classedName = _s.classify(this.libName);
+        this.cameledName = _s.camelize(this.libName);
+        this.ngModuleName = this.classedName + 'Module';
       });
   }
 
   writing() {
-    //this.fs.copyTpl(
-    //  this.templatePath('index.html'),
-    //  this.destinationPath('public/index.html'),
-    //  { title: 'Templating with Yeoman' }
-    //);
+    this.targetPath = this.dashedName;
+    const currentDir = process.cwd().split(path.sep).pop();
+    this.isInDir = currentDir === this.dashedName;
+    if (this.isInDir) {
+      this.targetPath = '';
+    }
 
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('**/*'),
-      this.destinationPath()
+      this.destinationPath(this.targetPath),
+      this
     );
+
   }
 
   install() {
-    this.installDepdencies();
+    const base = this.destinationPath(this.targetPath + 'src/');
+    this.fs.move(base + 'directive.ts', base + this.dashedName + '.directive.ts');
+    this.fs.move(base + 'directive.spec.ts', base + this.dashedName + '.directive.spec.ts');
+    this.fs.move(base + 'module.ts', base + this.dashedName + '.module.ts');
+    if (!this.isInDir) {
+      this.spawnCommand('cd', [this.dashedName]);
+    }
+    this.spawnCommand('npm', ['install']);
+    this.spawnCommand('npm', ['run', 'link-mod']);
+    //this.spawnCommand('npm', ['run', 'dev']);
   }
 };
