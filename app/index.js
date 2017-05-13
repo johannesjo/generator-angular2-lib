@@ -2,6 +2,7 @@ const Generator = require('yeoman-generator');
 const _s = require('underscore.string');
 const path = require('path');
 const execSync = require('child_process').execSync;
+const fs = require('fs');
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -66,10 +67,11 @@ module.exports = class extends Generator {
       execSync('cd ' + this.dashedName);
     }
 
+    // move files
     const base = this.destinationPath(this.targetPath + 'src/');
-    this.fs.move(base + 'directive.ts', base + this.dashedName + '.directive.ts');
-    this.fs.move(base + 'directive.spec.ts', base + this.dashedName + '.directive.spec.ts');
-    this.fs.move(base + 'module.ts', base + this.dashedName + '.module.ts');
+    fs.renameSync(base + 'directive.ts', base + this.dashedName + '.directive.ts');
+    fs.renameSync(base + 'directive.spec.ts', base + this.dashedName + '.directive.spec.ts');
+    fs.renameSync(base + 'module.ts', base + this.dashedName + '.module.ts');
 
     this.installDependencies({
       npm: true,
@@ -84,6 +86,9 @@ module.exports = class extends Generator {
 
   postRun() {
     this.on('dependenciesInstalled', function () {
+
+
+      // create symlink and run
       this.spawnCommand('npm', ['run', 'link-mod']);
       this.spawnCommand('npm', ['run', 'dev']);
     });
