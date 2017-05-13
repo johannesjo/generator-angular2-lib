@@ -16,7 +16,7 @@ There are also [other](https://github.com/jvandemo/generator-angular2-library) [
 
 ## Getting started
 ```
-# install yeoman
+# install yeoman and generator-a2lib
 npm install -g yo generator-a2lib
 
 # either create a directory or clone your empty repository from github
