@@ -1,4 +1,4 @@
-# generator-angular-lib
+# generator-angular2-lib
 Setting up everything for publishing a new angular2+ library can be quite a tedious task. To make this task as easy as possible I build this yeoman generator.
 
 There are also [other](https://github.com/jvandemo/generator-angular2-library) [options](https://github.com/mgonto/generator-angularjs-gulp-library) out there, but they we're lacking features I wanted, such as a pre-configured GitHub pages demo page, wallaby.js support, automatic changelogs and a basic boilerplate which includes code to provide a configuration interface for the component. 
